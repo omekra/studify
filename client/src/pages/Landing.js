@@ -1,9 +1,10 @@
 import logo from "../assets/images/logo-s.svg";
 import main from "../assets/images/main.svg";
+import Wrapper from "../assets/wrappers/LandingPage";
 
 const Landing = () => {
   return (
-    <main>
+    <Wrapper>
       <nav>
         <img src={logo} alt="studify" className="logo" />
       </nav>
@@ -21,7 +22,8 @@ const Landing = () => {
         </div>
         <img src={main} alt="student track" className="img main-img" />
       </div>
-    </main>
+    </Wrapper>
   );
 };
+
 export default Landing;
