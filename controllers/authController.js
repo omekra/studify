@@ -4,13 +4,11 @@ import { StatusCodes } from "http-status-codes";
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
-
   if (!name || !email || !password) {
     throw new BadRequestError("Please provide all values");
   }
 
   const userAlreadyExists = await User.findOne({ email });
-
   if (userAlreadyExists) {
     throw new BadRequestError("Email already in use");
   }
