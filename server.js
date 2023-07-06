@@ -1,7 +1,9 @@
 import "express-async-errors";
 import express from "express";
-const app = express();
 import dotenv from "dotenv";
+import morgan from "morgan";
+
+const app = express();
 dotenv.config();
 
 // db and authenticateUser
@@ -14,6 +16,10 @@ import studentRouter from "./routes/studentsRoutes.js";
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
+
+if (process.env.NODE_ENV !== "production") {
+  app.use(morgan("dev"));
+}
 
 app.use(express.json());
 
