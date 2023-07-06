@@ -54,6 +54,28 @@ const reducer = (state, action) => {
   if (action.type === LOGIN_USER_BEGIN) {
     return { ...state, isLoading: true };
   }
+  if (action.type === LOGIN_USER_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Login successful! Redirecting...",
+      token: action.payload.token,
+      user: action.payload.user,
+      userLocation: action.payload.location,
+      studentLocation: action.payload.location,
+    };
+  }
+  if (action.type === LOGIN_USER_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
   throw new Error(`no such action: ${action.type}`);
 };
 
