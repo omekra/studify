@@ -1,12 +1,9 @@
 import {
   CLEAR_ALERT,
   DISPLAY_ALERT,
-  REGISTER_USER_BEGIN,
-  REGISTER_USER_SUCCESS,
-  REGISTER_USER_ERROR,
-  LOGIN_USER_BEGIN,
-  LOGIN_USER_SUCCESS,
-  LOGIN_USER_ERROR,
+  SETUP_USER_BEGIN,
+  SETUP_USER_SUCCESS,
+  SETUP_USER_ERROR,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -26,48 +23,23 @@ const reducer = (state, action) => {
       alertType: "",
     };
   }
-  if (action.type === REGISTER_USER_BEGIN) {
+  if (action.type === SETUP_USER_BEGIN) {
     return { ...state, isLoading: true };
   }
-  if (action.type === REGISTER_USER_SUCCESS) {
+  if (action.type === SETUP_USER_SUCCESS) {
     return {
       ...state,
       isLoading: false,
       showAlert: true,
       alertType: "success",
-      alertText: "User created! Redirecting...",
+      alertText: action.payload.alertText,
       token: action.payload.token,
       user: action.payload.user,
       userLocation: action.payload.location,
       studentLocation: action.payload.location,
     };
   }
-  if (action.type === REGISTER_USER_ERROR) {
-    return {
-      ...state,
-      isLoading: false,
-      showAlert: true,
-      alertType: "danger",
-      alertText: action.payload.msg,
-    };
-  }
-  if (action.type === LOGIN_USER_BEGIN) {
-    return { ...state, isLoading: true };
-  }
-  if (action.type === LOGIN_USER_SUCCESS) {
-    return {
-      ...state,
-      isLoading: false,
-      showAlert: true,
-      alertType: "success",
-      alertText: "Login successful! Redirecting...",
-      token: action.payload.token,
-      user: action.payload.user,
-      userLocation: action.payload.location,
-      studentLocation: action.payload.location,
-    };
-  }
-  if (action.type === LOGIN_USER_ERROR) {
+  if (action.type === SETUP_USER_ERROR) {
     return {
       ...state,
       isLoading: false,
