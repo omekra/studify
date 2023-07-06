@@ -12,8 +12,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/">
-          <Route path="stats" element={<Stats />} />
+        <Route path="/" element={<SharedLayout />}>
+          <Route index element={<Stats />} />
           <Route path="all-students" element={<AllStudents />} />
           <Route path="add-student" element={<AddStudent />} />
           <Route path="profile" element={<Profile />} />
