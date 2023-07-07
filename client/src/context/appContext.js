@@ -6,12 +6,14 @@ import {
   SETUP_USER_BEGIN,
   SETUP_USER_SUCCESS,
   SETUP_USER_ERROR,
+  TOGGLE_SIDEBAR,
 } from "./actions";
 import axios from "axios";
 
 const token = localStorage.getItem("token");
 const user = localStorage.getItem("user");
 const userLocation = localStorage.getItem("location");
+
 const initialState = {
   isLoading: false,
   showAlert: false,
@@ -21,6 +23,7 @@ const initialState = {
   token: token ? token : null,
   userLocation: userLocation ? userLocation : "",
   studentLocation: userLocation ? userLocation : "",
+  showSidebar: false,
 };
 
 const AppContext = React.createContext();
@@ -74,8 +77,14 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
+  const toggleSidebar = () => {
+    dispatch({ type: TOGGLE_SIDEBAR });
+  };
+
   return (
-    <AppContext.Provider value={{ ...state, displayAlert, setupUser }}>
+    <AppContext.Provider
+      value={{ ...state, displayAlert, setupUser, toggleSidebar }}
+    >
       {children}
     </AppContext.Provider>
   );
