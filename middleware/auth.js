@@ -1,5 +1,8 @@
 const auth = async (req, res, next) => {
-  console.log("authenticate user");
+  const headers = req.headers;
+  const authHeader = req.headers.authorization;
+  console.log("🚀 ~ headers:", headers);
+  console.log("🚀 ~ authHeader:", authHeader);
   next();
 };
 
