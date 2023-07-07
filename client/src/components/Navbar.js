@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Wrapper from "../assets/wrappers/Navbar";
-import { FaArrowLeft, FaUserCircle, FaCaretDown } from "react-icons/fa";
+import { FaAlignLeft, FaUserCircle, FaCaretDown } from "react-icons/fa";
 import { useAppContext } from "../context/appContext";
 import Logo from "./Logo";
 
@@ -12,7 +12,7 @@ const Navbar = () => {
     <Wrapper>
       <div className="nav-center">
         <button type="button" className="toggle-btn" onClick={toggleSidebar}>
-          <FaArrowLeft />
+          <FaAlignLeft />
         </button>
         <div>
           <Logo />
