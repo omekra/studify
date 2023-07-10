@@ -8,6 +8,9 @@ import {
   SETUP_USER_ERROR,
   TOGGLE_SIDEBAR,
   LOGOUT_USER,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR,
 } from "./actions";
 import axios from "axios";
 
@@ -38,7 +41,7 @@ const AppProvider = ({ children }) => {
   // request
   authFetch.interceptors.request.use(
     (config) => {
-      // config.headers["Authorization"] = `Bearer ${state.token}`;
+      config.headers["Authorization"] = `Bearer ${state.token}`;
       return config;
     },
     (error) => {
@@ -115,12 +118,24 @@ const AppProvider = ({ children }) => {
   };
 
   const updateUser = async (currentUser) => {
+    dispatch({ type: UPDATE_USER_BEGIN });
     try {
       const { data } = await authFetch.patch("/auth/updateUser", currentUser);
-      console.log("🚀 ~ data:", data);
+
+      const { user, token, location } = data;
+
+      dispatch({
+        type: UPDATE_USER_SUCCESS,
+        payload: { user, token, location },
+      });
+      addUserToLocalStorage({ user, token, location });
     } catch (error) {
-      // console.log("🚀 ~ error:", error);
+      dispatch({
+        type: UPDATE_USER_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
     }
+    clearAlert();
   };
 
   return (
