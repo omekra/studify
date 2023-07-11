@@ -1,5 +1,16 @@
+import { StatusCodes } from "http-status-codes";
+import Student from "../models/Student.js";
+import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
+
 const createStudent = async (req, res) => {
-  res.send("create student");
+  const { name, email } = req.body;
+  if (!name || !email) {
+    throw new BadRequestError("Please provide all values");
+  }
+
+  req.body.createdBy = req.user.userId;
+  const student = await Student.create(req.body);
+  res.status(StatusCodes.CREATED).json({ student });
 };
 const getAllStudents = async (req, res) => {
   res.send("getAllStudents");

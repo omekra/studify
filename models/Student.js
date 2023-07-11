@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import validator from "validator";
 
 const StudentSchema = new mongoose.Schema(
   {
@@ -42,7 +43,7 @@ const StudentSchema = new mongoose.Schema(
         "Painting and Decorating",
         "Massage",
       ],
-      default: "",
+      default: "General English",
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
