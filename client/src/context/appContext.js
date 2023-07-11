@@ -26,8 +26,22 @@ const initialState = {
   user: user ? JSON.parse(user) : null,
   token: token ? token : null,
   userLocation: userLocation ? userLocation : "",
-  studentLocation: userLocation ? userLocation : "",
   showSidebar: false,
+  isEditing: false,
+  editStudentId: "",
+  studentName: "",
+  studentLastName: "",
+  studentEmail: "",
+  studentLocation: userLocation ? userLocation : "",
+  studentStatusOptions: ["enrolled", "declined", "pending"],
+  studentStatus: "pending",
+  studentCourseOptions: [
+    "General English",
+    "Carpentry",
+    "Painting and Decorating",
+    "Massage",
+  ],
+  studentCourse: "General English",
 };
 
 const AppContext = React.createContext();
