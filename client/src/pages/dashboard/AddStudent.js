@@ -16,6 +16,7 @@ const AddStudent = () => {
     studentStatusOptions,
     studentCourse,
     studentCourseOptions,
+    handleChange,
   } = useAppContext();
 
   const handleSubmit = (e) => {
@@ -32,7 +33,7 @@ const AddStudent = () => {
   const handleStudentInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(`${name}: ${value}`);
+    handleChange({ name, value });
   };
 
   return (
