@@ -12,6 +12,7 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
   HANDLE_CHANGE,
+  CLEAR_VALUES,
 } from "./actions";
 import axios from "axios";
 
@@ -26,14 +27,14 @@ const initialState = {
   alertType: "",
   user: user ? JSON.parse(user) : null,
   token: token ? token : null,
-  userLocation: userLocation ? userLocation : "",
+  userLocation: userLocation || "",
   showSidebar: false,
   isEditing: false,
   editStudentId: "",
   studentName: "",
   studentLastName: "",
   studentEmail: "",
-  studentLocation: userLocation ? userLocation : "",
+  studentLocation: userLocation || "",
   studentStatusOptions: ["enrolled", "declined", "pending"],
   studentStatus: "pending",
   studentCourseOptions: [
@@ -158,6 +159,10 @@ const AppProvider = ({ children }) => {
     dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
   };
 
+  const clearValues = () => {
+    dispatch({ type: CLEAR_VALUES });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -168,6 +173,7 @@ const AppProvider = ({ children }) => {
         logoutUser,
         updateUser,
         handleChange,
+        clearValues,
       }}
     >
       {children}

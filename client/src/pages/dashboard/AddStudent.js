@@ -17,6 +17,7 @@ const AddStudent = () => {
     studentCourse,
     studentCourseOptions,
     handleChange,
+    clearValues,
   } = useAppContext();
 
   const handleSubmit = (e) => {
@@ -91,6 +92,15 @@ const AddStudent = () => {
               onClick={handleSubmit}
             >
               Submit
+            </button>
+            <button
+              className="btn btn-block clear-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                clearValues();
+              }}
+            >
+              clear
             </button>
           </div>
         </div>
