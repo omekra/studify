@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FormRow, Alert } from "../../components";
+import { FormRow, FormRowSelect, Alert } from "../../components";
 import { useAppContext } from "../../context/appContext";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 
@@ -69,23 +69,20 @@ const AddStudent = () => {
             value={studentLocation}
             handleChange={handleStudentInput}
           />
-          <div className="form-row">
-            <label htmlFor="studentStatus" className="form-label">
-              Student status
-            </label>
-            <select
-              name="studentStatus"
-              value={studentStatus}
-              onChange={handleStudentInput}
-              className="form-select"
-            >
-              {studentStatusOptions.map((itemValue, index) => (
-                <option value={itemValue} key={index}>
-                  {itemValue}
-                </option>
-              ))}
-            </select>
-          </div>
+          <FormRowSelect
+            name="studentStatus"
+            labelText="student status"
+            value={studentStatus}
+            handleChange={handleStudentInput}
+            list={studentStatusOptions}
+          />
+          <FormRowSelect
+            name="studentCourse"
+            labelText="student course"
+            value={studentCourse}
+            handleChange={handleStudentInput}
+            list={studentCourseOptions}
+          />
           <div className="btn-container">
             <button
               type="submit"
