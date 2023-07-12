@@ -69,6 +69,23 @@ const AddStudent = () => {
             value={studentLocation}
             handleChange={handleStudentInput}
           />
+          <div className="form-row">
+            <label htmlFor="studentStatus" className="form-label">
+              Student status
+            </label>
+            <select
+              name="studentStatus"
+              value={studentStatus}
+              onChange={handleStudentInput}
+              className="form-select"
+            >
+              {studentStatusOptions.map((itemValue, index) => (
+                <option value={itemValue} key={index}>
+                  {itemValue}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="btn-container">
             <button
               type="submit"
