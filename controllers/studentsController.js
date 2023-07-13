@@ -17,7 +17,7 @@ const getAllStudents = async (req, res) => {
   const students = await Student.find();
   res
     .status(StatusCodes.OK)
-    .json({ students, totalStudents: students.length, numberOfPages: 1 });
+    .json({ students, totalStudents: students.length, numOfPages: 1 });
 };
 const updateStudent = async (req, res) => {
   res.send("updateStudent");

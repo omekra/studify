@@ -16,6 +16,8 @@ import {
   CREATE_STUDENT_BEGIN,
   CREATE_STUDENT_SUCCESS,
   CREATE_STUDENT_ERROR,
+  GET_STUDENTS_BEGIN,
+  GET_STUDENTS_SUCCESS,
 } from "./actions";
 import axios from "axios";
 
@@ -46,6 +48,10 @@ const initialState = {
     "Massage",
   ],
   studentCourse: "General English",
+  students: [],
+  totalStudents: 0,
+  numOfPages: 1,
+  page: 1,
 };
 
 const AppContext = React.createContext();
@@ -196,6 +202,25 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
+  const getStudents = async () => {
+    let url = `/students`;
+
+    dispatch({ type: GET_STUDENTS_BEGIN });
+    try {
+      const { data } = await authFetch.get(url);
+      const { students, totalStudents, numOfPages } = data;
+
+      dispatch({
+        type: GET_STUDENTS_SUCCESS,
+        payload: { students, totalStudents, numOfPages },
+      });
+    } catch (error) {
+      console.log("🚀 ~ error:", error.response);
+      // logoutUser();
+    }
+    clearAlert();
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -208,6 +233,7 @@ const AppProvider = ({ children }) => {
         handleChange,
         clearValues,
         createStudent,
+        getStudents,
       }}
     >
       {children}

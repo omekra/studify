@@ -14,6 +14,8 @@ import {
   CREATE_STUDENT_BEGIN,
   CREATE_STUDENT_SUCCESS,
   CREATE_STUDENT_ERROR,
+  GET_STUDENTS_BEGIN,
+  GET_STUDENTS_SUCCESS,
 } from "./actions";
 import { initialState } from "./appContext";
 
@@ -140,6 +142,18 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: "danger",
       alertText: action.payload.msg,
+    };
+  }
+  if (action.type === GET_STUDENTS_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
+  if (action.type === GET_STUDENTS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      students: action.payload.students,
+      totalStudents: action.payload.totalStudents,
+      numOfPages: action.payload.numOfPages,
     };
   }
 
