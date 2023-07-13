@@ -3,8 +3,8 @@ import Student from "../models/Student.js";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 
 const createStudent = async (req, res) => {
-  const { name, email } = req.body;
-  if (!name || !email) {
+  const { studentName, studentEmail } = req.body;
+  if (!studentName || !studentEmail) {
     throw new BadRequestError("Please provide all values");
   }
 

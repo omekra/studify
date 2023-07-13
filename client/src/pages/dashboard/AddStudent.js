@@ -1,15 +1,14 @@
-import { useState } from "react";
 import { FormRow, FormRowSelect, Alert } from "../../components";
 import { useAppContext } from "../../context/appContext";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 
 const AddStudent = () => {
   const {
+    isLoading,
     isEditing,
     showAlert,
     displayAlert,
     studentName,
-    studentLastName,
     studentEmail,
     studentLocation,
     studentStatus,
@@ -18,6 +17,7 @@ const AddStudent = () => {
     studentCourseOptions,
     handleChange,
     clearValues,
+    createStudent,
   } = useAppContext();
 
   const handleSubmit = (e) => {
@@ -28,7 +28,11 @@ const AddStudent = () => {
       return;
     }
 
-    console.log("create job");
+    if (isEditing) {
+      return;
+    }
+
+    createStudent();
   };
 
   const handleStudentInput = (e) => {
@@ -48,13 +52,6 @@ const AddStudent = () => {
             labelText="name"
             name="studentName"
             value={studentName}
-            handleChange={handleStudentInput}
-          />
-          <FormRow
-            type="text"
-            labelText="last name"
-            name="studentLastName"
-            value={studentLastName}
             handleChange={handleStudentInput}
           />
           <FormRow
@@ -90,6 +87,7 @@ const AddStudent = () => {
               type="submit"
               className="btn btn-block submit-btn"
               onClick={handleSubmit}
+              disabled={isLoading}
             >
               Submit
             </button>

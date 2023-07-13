@@ -13,6 +13,9 @@ import {
   UPDATE_USER_ERROR,
   HANDLE_CHANGE,
   CLEAR_VALUES,
+  CREATE_STUDENT_BEGIN,
+  CREATE_STUDENT_SUCCESS,
+  CREATE_STUDENT_ERROR,
 } from "./actions";
 import axios from "axios";
 
@@ -32,7 +35,6 @@ const initialState = {
   isEditing: false,
   editStudentId: "",
   studentName: "",
-  studentLastName: "",
   studentEmail: "",
   studentLocation: userLocation || "",
   studentStatusOptions: ["enrolled", "declined", "pending"],
@@ -163,6 +165,37 @@ const AppProvider = ({ children }) => {
     dispatch({ type: CLEAR_VALUES });
   };
 
+  const createStudent = async () => {
+    dispatch({ type: CREATE_STUDENT_BEGIN });
+    try {
+      const {
+        studentName,
+        studentEmail,
+        studentLocation,
+        studentStatus,
+        studentCourse,
+      } = state;
+
+      await authFetch.post("/students", {
+        studentName,
+        studentEmail,
+        studentLocation,
+        studentStatus,
+        studentCourse,
+      });
+
+      dispatch({ type: CREATE_STUDENT_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      dispatch({
+        type: CREATE_STUDENT_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert();
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -174,6 +207,7 @@ const AppProvider = ({ children }) => {
         updateUser,
         handleChange,
         clearValues,
+        createStudent,
       }}
     >
       {children}

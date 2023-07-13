@@ -3,20 +3,14 @@ import validator from "validator";
 
 const StudentSchema = new mongoose.Schema(
   {
-    name: {
+    studentName: {
       type: String,
       required: [true, "Please provide name"],
       minlength: 3,
       maxlength: 20,
       trim: true,
     },
-    lastName: {
-      type: String,
-      trim: true,
-      maxlength: 20,
-      default: "last name",
-    },
-    email: {
+    studentEmail: {
       type: String,
       required: [true, "Please provide email"],
       validate: {
@@ -24,18 +18,18 @@ const StudentSchema = new mongoose.Schema(
         message: "Please provide a valid email",
       },
     },
-    location: {
+    studentLocation: {
       type: String,
       required: true,
       maxlength: 20,
       default: "my location",
     },
-    status: {
+    studentStatus: {
       type: String,
       enum: ["enrolled", "declined", "pending"],
       default: "pending",
     },
-    course: {
+    studentCourse: {
       type: String,
       enum: [
         "General English",

@@ -11,6 +11,9 @@ import {
   UPDATE_USER_ERROR,
   HANDLE_CHANGE,
   CLEAR_VALUES,
+  CREATE_STUDENT_BEGIN,
+  CREATE_STUDENT_SUCCESS,
+  CREATE_STUDENT_ERROR,
 } from "./actions";
 import { initialState } from "./appContext";
 
@@ -99,7 +102,7 @@ const reducer = (state, action) => {
   if (action.type === HANDLE_CHANGE) {
     return {
       ...state,
-      [action.payload.name]: [action.payload.value],
+      [action.payload.name]: action.payload.value,
     };
   }
   if (action.type === CLEAR_VALUES) {
@@ -107,7 +110,6 @@ const reducer = (state, action) => {
       isEditing: false,
       editStudentId: "",
       studentName: "",
-      studentLastName: "",
       studentEmail: "",
       studentLocation: state.userLocation,
       studentStatus: "pending",
@@ -119,6 +121,28 @@ const reducer = (state, action) => {
       ...initialState,
     };
   }
+  if (action.type === CREATE_STUDENT_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+  if (action.type === CREATE_STUDENT_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "New student created!",
+    };
+  }
+  if (action.type === CREATE_STUDENT_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
+
   throw new Error(`no such action: ${action.type}`);
 };
 
