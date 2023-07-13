@@ -11,6 +11,13 @@ import {
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
+  HANDLE_CHANGE,
+  CLEAR_VALUES,
+  CREATE_STUDENT_BEGIN,
+  CREATE_STUDENT_SUCCESS,
+  CREATE_STUDENT_ERROR,
+  GET_STUDENTS_BEGIN,
+  GET_STUDENTS_SUCCESS,
 } from "./actions";
 import axios from "axios";
 
@@ -25,9 +32,26 @@ const initialState = {
   alertType: "",
   user: user ? JSON.parse(user) : null,
   token: token ? token : null,
-  userLocation: userLocation ? userLocation : "",
-  studentLocation: userLocation ? userLocation : "",
+  userLocation: userLocation || "",
   showSidebar: false,
+  isEditing: false,
+  editStudentId: "",
+  studentName: "",
+  studentEmail: "",
+  studentLocation: userLocation || "",
+  studentStatusOptions: ["enrolled", "declined", "pending"],
+  studentStatus: "pending",
+  studentCourseOptions: [
+    "General English",
+    "Carpentry",
+    "Painting and Decorating",
+    "Massage",
+  ],
+  studentCourse: "General English",
+  students: [],
+  totalStudents: 0,
+  numOfPages: 1,
+  page: 1,
 };
 
 const AppContext = React.createContext();
@@ -139,6 +163,64 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
+  const handleChange = ({ name, value }) => {
+    dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
+  };
+
+  const clearValues = () => {
+    dispatch({ type: CLEAR_VALUES });
+  };
+
+  const createStudent = async () => {
+    dispatch({ type: CREATE_STUDENT_BEGIN });
+    try {
+      const {
+        studentName,
+        studentEmail,
+        studentLocation,
+        studentStatus,
+        studentCourse,
+      } = state;
+
+      await authFetch.post("/students", {
+        studentName,
+        studentEmail,
+        studentLocation,
+        studentStatus,
+        studentCourse,
+      });
+
+      dispatch({ type: CREATE_STUDENT_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      dispatch({
+        type: CREATE_STUDENT_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert();
+  };
+
+  const getStudents = async () => {
+    let url = `/students`;
+
+    dispatch({ type: GET_STUDENTS_BEGIN });
+    try {
+      const { data } = await authFetch.get(url);
+      const { students, totalStudents, numOfPages } = data;
+
+      dispatch({
+        type: GET_STUDENTS_SUCCESS,
+        payload: { students, totalStudents, numOfPages },
+      });
+    } catch (error) {
+      console.log("🚀 ~ error:", error.response);
+      // logoutUser();
+    }
+    clearAlert();
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -148,6 +230,10 @@ const AppProvider = ({ children }) => {
         toggleSidebar,
         logoutUser,
         updateUser,
+        handleChange,
+        clearValues,
+        createStudent,
+        getStudents,
       }}
     >
       {children}

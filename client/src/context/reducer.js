@@ -9,6 +9,13 @@ import {
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
+  HANDLE_CHANGE,
+  CLEAR_VALUES,
+  CREATE_STUDENT_BEGIN,
+  CREATE_STUDENT_SUCCESS,
+  CREATE_STUDENT_ERROR,
+  GET_STUDENTS_BEGIN,
+  GET_STUDENTS_SUCCESS,
 } from "./actions";
 import { initialState } from "./appContext";
 
@@ -94,6 +101,62 @@ const reducer = (state, action) => {
       alertText: action.payload.msg,
     };
   }
+  if (action.type === HANDLE_CHANGE) {
+    return {
+      ...state,
+      [action.payload.name]: action.payload.value,
+    };
+  }
+  if (action.type === CLEAR_VALUES) {
+    const initialState = {
+      isEditing: false,
+      editStudentId: "",
+      studentName: "",
+      studentEmail: "",
+      studentLocation: state.userLocation,
+      studentStatus: "pending",
+      studentCourse: "General English",
+    };
+
+    return {
+      ...state,
+      ...initialState,
+    };
+  }
+  if (action.type === CREATE_STUDENT_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+  if (action.type === CREATE_STUDENT_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "New student created!",
+    };
+  }
+  if (action.type === CREATE_STUDENT_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    };
+  }
+  if (action.type === GET_STUDENTS_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
+  if (action.type === GET_STUDENTS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      students: action.payload.students,
+      totalStudents: action.payload.totalStudents,
+      numOfPages: action.payload.numOfPages,
+    };
+  }
+
   throw new Error(`no such action: ${action.type}`);
 };
 
