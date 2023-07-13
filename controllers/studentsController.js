@@ -13,7 +13,11 @@ const createStudent = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ student });
 };
 const getAllStudents = async (req, res) => {
-  res.send("getAllStudents");
+  // const students = await Student.find({ createdBy: req.user.userId });
+  const students = await Student.find();
+  res
+    .status(StatusCodes.OK)
+    .json({ students, totalStudents: students.length, numberOfPages: 1 });
 };
 const updateStudent = async (req, res) => {
   res.send("updateStudent");
